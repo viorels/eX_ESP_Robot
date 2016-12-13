@@ -1250,6 +1250,7 @@ uint8_t mpu_Initialization()
   mpuSetDLPFMode(MPU6050_DLPF_BW_10);              //10,20,42,98,188  // Default factor for BROBOT:10
   mpuSetRate(4);                                   // 0=1khz 1=500hz, 2=333hz, 3=250hz 4=200hz
   mpuSetSleepEnabled(false);
+  delay(1000);
   devStatus = dmpInitialize();             // return status after each device operation (0 = success, !0 = error)
   if (devStatus == 0)
   {
@@ -1257,6 +1258,7 @@ uint8_t mpu_Initialization()
     mpuSetDMPEnabled(true);
     mpuIntStatus = mpuGetIntStatus();
     //dmpReady = true;
+    delay(10000);
     devConnectStatus = mpuTestConnection();
     if (devConnectStatus == 0)
     {
