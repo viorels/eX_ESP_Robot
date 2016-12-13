@@ -72,12 +72,15 @@ void setup()
   WiFi_Start();
   te_Start();
   i2c_begin(SDA_PIN, SCL_PIN, I2C_SPEED);
-  timer_old_value = millis();
   robot_pro_mode = false;
   robot_shutdown = false;
   if (mpu_Initialization() == 0)
     robot_shutdown = true;  
-  
+  timer_old_value = millis();
+  fadder[0] = 0.5;
+  fadder[1] = 0.5;
+  fadder[2] = 0.5;
+  fadder[3] = 0.5;
 }
 
 void loop()
@@ -149,6 +152,7 @@ void loop()
       //Reset external parameters
         mpuResetFIFO();
         PID_errorSum = 0;
+        control_output = 0;
         timer_old_value = millis(); 
         te_SetMotorsSpeed(0,0);
         OSC_MSG_Read();
@@ -159,12 +163,12 @@ void loop()
   fifoCount = mpuGetFIFOCount();
   if (fifoCount>=18)
   {
-    loop_counter++;
     if (fifoCount>18)
     {
       mpuResetFIFO();
       return;
     }
+    loop_counter++;
     timer_value = millis();
     dt = (timer_value - timer_old_value);
     timer_old_value = timer_value;
@@ -175,6 +179,7 @@ void loop()
     if ((angle_adjusted<74)&&(angle_adjusted>-74))  // Робот в рабочем ли положении?
     {
       // NORMAL MODE
+      PIN_LOW(MOTORS_ENABLE_PIN);    // драйвера активны
       // Push1 Move servo arm
       if (push[0])  // Move arm
         te_SetServo(SERVO_MIN_PULSEWIDTH+10);
@@ -197,7 +202,9 @@ void loop()
     }
     else   // Robot not ready (flat), angle > 70º => ROBOT OFF
     {
+      PIN_HIGH(MOTORS_ENABLE_PIN);    // драйвера не активны
       PID_errorSum = 0;  // Reset PID I term
+      control_output = 0;
       Kp = KP_RAISEUP;   // CONTROL GAINS FOR RAISE UP
       Kd = KD_RAISEUP;
       Kp_thr = KP_THROTTLE_RAISEUP;
@@ -232,7 +239,6 @@ void loop()
     target_angle = speedPIControl(dt,estimated_speed_filtered,throttle,Kp_thr,Ki_thr); 
     target_angle = constrain(target_angle,-max_target_angle,max_target_angle);                                   // limited output
 
-
       // Stability control: This is a PD controller. 
       // input: robot target angle(from SPEED CONTROL)
       // variable: robot angle
@@ -265,6 +271,7 @@ void loop()
   {
     dist_value = echo_value * 0.0125 / 58; // в сантиметрах
     loop_counter = 0;
+    Serial.println(control_output);
   }
 
 }
