@@ -197,7 +197,7 @@ void te_Start()
 {
 // Инициируем выходы управления драйверами моторов
   pinMode(MOTORS_ENABLE_PIN,OUTPUT);
-  PIN_LOW(MOTORS_ENABLE_PIN);    // драйвера активны
+  PIN_HIGH(MOTORS_ENABLE_PIN);    // драйвера не активны
   pinMode(MOTORS_DIR_PIN,OUTPUT);
   
 // Инициируем motor1 как devices[0]
