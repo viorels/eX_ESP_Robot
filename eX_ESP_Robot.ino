@@ -3,12 +3,16 @@
 // Date: 26/10/2015
 // License: GPL v2
 
+// Some translations for my own understanding, by rolfz December 2016
+
 // Для создания балансирующего робота использовано: 
+// Material for the creation of the balancing robot:
 // - 1 WiFi модуль ESP8266
 // - 1 DMP processor MPU6050
 // - 2 Drivers Stepper Motors A4988
 // - 2 Stepper Motors 17HS2408 (0.6A, 1.8 deg/step)
 // Опционно:
+// Options
 // - 1 Futaba Micro 9g серво-привод
 // - 1 Distance sensor (sonar) HC-SR04
 // - 1 MP3 звуковой модуль
@@ -62,14 +66,21 @@ int16_t    motor2;
 
 uint16_t   loop_counter = 0;
 
-
+#define USE_UART
+#define DEBUG_GYRO
 
 void setup() 
 {
 #ifdef USE_UART
   Serial.begin(SERIAL_SPEED);
+  delay(100);
+  Serial.println("\n\n! eX_ESP_Robot ready !\n");
+  
 #endif
   WiFi_Start();
+#ifdef USE_UART
+  Serial.println("Wifi ready");
+#endif
   te_Start();
   i2c_begin(SDA_PIN, SCL_PIN, I2C_SPEED);
   robot_pro_mode = false;
@@ -81,6 +92,11 @@ void setup()
   fadder[1] = 0.5;
   fadder[2] = 0.5;
   fadder[3] = 0.5;
+// Red led for debugging and to signal that the gyro did not initalize
+#ifdef DEBUG_GYRO
+  pinMode(LED_RED,OUTPUT);  
+  digitalWrite(LED_RED,HIGH); // OFF
+#endif
 }
 
 void loop()

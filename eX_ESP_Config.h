@@ -10,8 +10,8 @@
 /// Параметры шины I2C и UART ///
 #define  I2C_SPEED                  400000
 #define  SERIAL_SPEED               57600
-#define  K_bat                      0.004581469370719
-
+//#define  K_bat                      0.004581469370719
+#define  K_bat                      1.5*0.004581469370719 //rz: alternative battery level divider
 
 ///    Параметры модуля MPU6050      ///
 //============= start ================//
@@ -45,11 +45,28 @@
 // что соответствавало частоте 11.5 кГц (она же 500*23=11500)
 // при этих частотах мотор совершал 7.1875 полных оборота в секунду
 // что соответствовало линейной скорости  2258 мм/сек (135.48 м/мин)(8.1288 км/ч)
+
+// For the original robot, a wheel with D = 100 mm was used
+// For this wheel, the distance for one turn (Périmeter) will be:  Pi*D = 314.15652 mm
+// The number of steps for the used motor is  200 steps and 1.8 degrés equivalent to 1600 microsteps at 1/8 
+// for a setup with microsteps at 1/16, the number of microsteps will double and become 3200 steps.
+
+// The controlling value for maximum speed is 500 
+// This number multiplied by 23 gives the motor speed
+// This allows us to calculate the period of one cycle equivalent to 173.913 us. As the puls is 1/2 of the period
+// this results in a pulse of 86.9565 us.
+// rz rem: my calculation of 1/period = 1/11500 = 86.9565us and a plus if 43us...... to be checked !!!!!!!!!!!!!!!!
+// which corresponds to a frequency of 11.5 kHz (500*23=11500) 
+// with this frequency, the motor makes 7.1875 turns per second 
+// which corrresponds to a linear speed of 2258 mm/s = 8.1288 km/h
  
 #define  MAX_SPEED_LINEAR           8.5   // км/ч
-#define  VHEEL_DIAMETR              108   // мм
-#define  MAX_TURN                   MAX_SPEED_LINEAR * 1000000 / 3600 / VHEEL_DIAMETR / PI  // обороты в секунду
+//#define  VHEEL_DIAMETR              108   // мм
+#define VHEEL_DIAMETR               94 //rz: mm
+
+#define  MAX_TURN                   MAX_SPEED_LINEAR * 1000000 / 3600 / VHEEL_DIAMETR / PI  // обороты в секунду // max tours/secondes
 #define  MAX_FREQUENCY              MAX_TURN * 360 / ANGLE_PER_STEP * MICROSTEPPING         // максимальная частота следования импульсов STEP (Гц)
+                                                                                            // Maximum motor pulse frequency (STEP)
 
 //============== end =================//
 
@@ -61,9 +78,9 @@
 #define  MAX_CONTROL_OUTPUT         500
 
 // NORMAL MODE = smooth, moderately
-#define  MAX_THROTTLE               480      // дроссель, скорость
-#define  MAX_STEERING               130      // руление, поворачиваемость
-#define  MAX_TARGET_ANGLE           12       // угол наклона
+#define  MAX_THROTTLE               480      // дроссель, скорость // accellerator speed
+#define  MAX_STEERING               130      // руление, поворачиваемость // max steering
+#define  MAX_TARGET_ANGLE           12       // угол наклона // max tilt angle
 
 // PRO MODE = more aggressive
 #define  MAX_THROTTLE_PRO           680

@@ -2,13 +2,16 @@
 #define EX_ESP_WIFI_H
 
 #include <WiFiUdp.h>
+#include "accessData.h" // file continaing the local router SSID and Password
+                        // this file will not be compied to the GIT folder (ignored).
 
 WiFiUDP UdP;
 
-const char *ssid = "= eX-Robot =";
-const char *password = "1231231231";
-uint16_t   RxPort = 8000;
-uint16_t   TxPort = 9000;
+// lines moved to accessData.h
+//const char *ssid = "= eX-Robot =";
+//const char *password = "1231231231";
+//uint16_t   RxPort = 8000;
+//uint16_t   TxPort = 9000;
 
 char PacketBuffer[128];                 //буфер для хранения принимаемых и отправляемых пакетов
 int  PacketSize = 0;
@@ -20,8 +23,35 @@ union{
 
 void WiFi_Start()
 {
-//  WiFi.disconnect();
-  WiFi.softAP(ssid, password);
+  //rz: I added the Station mode for debugging, this allows the smartphone to stay connected to the local router
+ #ifdef SOFTAP
+  Serial.println("\nStarting WIFI in SOFTAP mode");
+  WiFi.softAP(ssid); // password can be added as 2nd parameter
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
+
+  #else
+  WiFi.persistent(false);
+  WiFi.mode(WIFI_OFF); 
+  
+  Serial.println("Starting WIFI in STATION mode");
+  WiFi.mode(WIFI_STA);
+  delay(1000);
+    
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+  delay(500);
+  Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+  Serial.println("");
+  #endif
   UdP.begin(RxPort);
 }
 
