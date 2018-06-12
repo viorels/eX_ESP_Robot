@@ -1,9 +1,9 @@
 #ifndef EX_ESP_PINS_H
 #define EX_ESP_PINS_H
 
-// GPIO0    : v стартовые условия - 10К на +3.3В, или закоротить на землю для перепрошивки             
+// GPIO0    : v starting conditions - 10K to + 3.3V, or short-circuit to ground for reflashing             
 // GPIO1    : x U0TXD (Serial1)
-// GPIO2    : v стартовые условия - 10К на +3.3В
+// GPIO2    : v starting conditions - 10K to + 3.3V
 // GPIO3    : x U0RXD (Serial1)
 // GPIO4    : v
 // GPIO5    : v
@@ -43,8 +43,8 @@
 
 #define SONAR_TRIG_PIN       -1 //16 // NO sonar in my first check
 #define SONAR_ECHO_PIN       -1 //0
-#define SDA_PIN              4 // ou 5 pour ESP-07 (плата разведена не правильно)
-#define SCL_PIN              5 // ou 4 pour ESP-07 (плата разведена не правильно)
+#define SDA_PIN              4
+#define SCL_PIN              5
 
 #define SERVO1_PIN           2
 #define SERVO2_PIN           3

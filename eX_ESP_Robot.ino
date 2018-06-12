@@ -285,9 +285,9 @@ void loop()
 
   if (loop_counter > 400)
   {
-    dist_value = echo_value * 0.0125 / 58; // в сантиметрах
+    dist_value = echo_value * 0.0125 / 58; // in centimeters
     loop_counter = 0;
-    Serial.println(control_output);
+//    Serial.println(control_output);
   }
 
 }
