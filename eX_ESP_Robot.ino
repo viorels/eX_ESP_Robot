@@ -67,7 +67,7 @@ int16_t    motor2;
 uint16_t   loop_counter = 0;
 
 #define USE_UART
-#define DEBUG_GYRO
+//#define DEBUG_GYRO
 
 void setup() 
 {
@@ -190,7 +190,9 @@ void loop()
     timer_old_value = timer_value;
     angle_adjusted_Old = angle_adjusted;
     // Get new orientation angle from IMU (MPU6050)
-    angle_adjusted = dmpGetPhi();
+    float angle_perceived = dmpGetPhi();
+    angle_adjusted = -angle_perceived * 90/70;  // reverse angle sign and adjust proportion error
+//    Serial.println(angle_adjusted);
 
     if ((angle_adjusted<74)&&(angle_adjusted>-74))  // Робот в рабочем ли положении?
     {
