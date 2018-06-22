@@ -97,6 +97,20 @@ void setup()
   pinMode(LED_RED,OUTPUT);  
   digitalWrite(LED_RED,HIGH); // OFF
 #endif
+
+  digitalWrite(MOTORS_ENABLE_PIN, LOW);
+  for (uint8_t k = 0; k < 5; k++) {
+    te_SetMotorsSpeed(10, 10);
+    te_SetServo(SERVO_AUX_NEUTRO + 3);
+    delay(200);
+    te_SetMotorsSpeed(-10, -10);
+    te_SetServo(SERVO_AUX_NEUTRO - 3);
+    delay(200);
+  }
+  te_SetMotorsSpeed(0, 0);
+  digitalWrite(MOTORS_ENABLE_PIN, LOW);
+  te_SetServo(SERVO_AUX_NEUTRO);
+
 }
 
 void loop()

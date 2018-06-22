@@ -66,9 +66,9 @@
 #define  MAX_CONTROL_OUTPUT         500
 
 // NORMAL MODE = smooth, moderately
-#define  MAX_THROTTLE               480      // дроссель, скорость // accellerator speed
-#define  MAX_STEERING               130      // руление, поворачиваемость // max steering
-#define  MAX_TARGET_ANGLE           12       // угол наклона // max tilt angle
+#define  MAX_THROTTLE               480      // speed
+#define  MAX_STEERING               130      // max steering
+#define  MAX_TARGET_ANGLE           12       // max tilt angle
 
 // PRO MODE = more aggressive
 #define  MAX_THROTTLE_PRO           680
