@@ -253,14 +253,14 @@ void setMicroStepping(int stepping) {
   microstepping = stepping;
   motor_speed = microstepping * 360 / ANGLE_PER_STEP;
   if (stepping == 1) {
-    pinMode(SERVO2_PIN, OUTPUT);
-    digitalWrite(SERVO2_PIN, LOW);  // set MICROSTEPPING pins to LOW (full step)
+    pinMode(MICROSTEPPING_PIN, OUTPUT);
+    digitalWrite(MICROSTEPPING_PIN, LOW);  // set MICROSTEPPING pins to LOW (full step)
   } else if (stepping == 16) {
-    pinMode(SERVO2_PIN, OUTPUT);
-    digitalWrite(SERVO2_PIN, HIGH); // set MICROSTEPPING pins to HIGH (1/16)
+    pinMode(MICROSTEPPING_PIN, OUTPUT);
+    digitalWrite(MICROSTEPPING_PIN, HIGH); // set MICROSTEPPING pins to HIGH (1/16)
   } else if (stepping == 4) {
-    pinMode(SERVO2_PIN, INPUT);     // set MICROSTEPPING pins to FLOATING? (1/4)
-    digitalRead(SERVO2_PIN);
+    pinMode(MICROSTEPPING_PIN, INPUT);     // set MICROSTEPPING pins to FLOATING? (1/4)
+    digitalRead(MICROSTEPPING_PIN);
   }
 }
 

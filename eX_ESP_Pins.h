@@ -31,7 +31,9 @@
 #define SCL_PIN              5  // D1
 
 #define SERVO1_PIN           2  // D4
-#define SERVO2_PIN           3  // RX
+#define SERVO2_PIN           -1
+
+#define MICROSTEPPING_PIN           3  // RX
 #define BATTERY_PIN          17 // A0?
 
 #define LED_RED              16 //rz: This to check gyro trouble as gyro gets in trouble during code upload

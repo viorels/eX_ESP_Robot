@@ -210,7 +210,7 @@ void loop()
     angle_adjusted = -angle_perceived * 90/70;  // reverse angle sign and adjust proportion error
 //    Serial.println(angle_adjusted);
 
-    if ((angle_adjusted<74)&&(angle_adjusted>-74))  // Робот в рабочем ли положении?
+    if ((angle_adjusted<74)&&(angle_adjusted>-74))  // is the robot in working position?
     {
       // NORMAL MODE
       PIN_LOW(MOTORS_ENABLE_PIN);    // drivers are active
@@ -222,12 +222,12 @@ void loop()
         te_SetServo(SERVO_AUX_NEUTRO);
       if ((angle_adjusted<40)&&(angle_adjusted>-40))
       {
-        Kp = Kp_user;            // Получает контроль пользователя по умолчанию
+        Kp = Kp_user;            // gets the default user control
         Kd = Kd_user; 
         Kp_thr = Kp_thr_user;
         Ki_thr = Ki_thr_user;
       }     
-      else    // Во время поднятия робота в рабочее положение мы используем специальные параметры контроля
+      else    // while lifting the robot to the working position, we use special control parameters
       {
         Kp = KP_RAISEUP;         // CONTROL GAINS FOR RAISE UP
         Kd = KD_RAISEUP;
@@ -237,7 +237,7 @@ void loop()
     }
     else   // Robot not ready (flat), angle > 70º => ROBOT OFF
     {
-      PIN_HIGH(MOTORS_ENABLE_PIN);    // драйвера не активны
+      PIN_HIGH(MOTORS_ENABLE_PIN);    // drivers are not active
       PID_errorSum = 0;  // Reset PID I term
       control_output = 0;
       Kp = KP_RAISEUP;   // CONTROL GAINS FOR RAISE UP
@@ -259,11 +259,11 @@ void loop()
 
     }
 
-      // Мы рассчитываем расчетную скорость робота
-      // Расчетная скорость = угловая скорость шаговых двигателей (в сочетании) - угловая скорость робота (угол измеряется IMU)
+      // We calculate the design speed of the robot
+      // Estimated speed = angular velocity of stepper motors (in combination) - angular velocity of the robot (angle is measured by the IMU)
     actual_robot_speed_Old = actual_robot_speed;
     actual_robot_speed = (speed_M1 + speed_M2)/2;                                           // Positive: forward
-    int16_t angular_velocity = (angle_adjusted - angle_adjusted_Old)*90.0;                  // 90 эмпирический коэффициент полученный при корректировке реальных показателей
+    int16_t angular_velocity = (angle_adjusted - angle_adjusted_Old)*90.0;                  // 90 empirical coefficient obtained when adjusting real indicators
     int16_t estimated_speed = -actual_robot_speed_Old - angular_velocity;                   // We use robot_speed(t-1) or (t-2) to compensate the delay
     estimated_speed_filtered = estimated_speed_filtered*0.95 + (float)estimated_speed*0.05;
 
