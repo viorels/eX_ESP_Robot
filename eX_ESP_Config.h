@@ -30,8 +30,8 @@
 //============= start ================//
 #define  MICROSTEPPING              4    // 8, 16, 32
 #define  ANGLE_PER_STEP             1.8   // 0.9, 1.8
-#define  K_MOTOR_SPEED              MICROSTEPPING * 360 / ANGLE_PER_STEP 
-#define  PRE_DIR_STROBE             27    // 25 - 640 ns, 27 - 690ns, 28 - 740 ns
+#define  K_MOTOR_SPEED              MICROSTEPPING * 360 / ANGLE_PER_STEP
+#define  PRE_DIR_STROBE             25    // 25 - 640 ns, 27 - 690ns, 28 - 740 ns
 //============== end =================//
 
 ///       Constructive section      ///
@@ -55,7 +55,7 @@
 #define VHEEL_DIAMETR               94 //rz: mm
 
 #define  MAX_TURN                   MAX_SPEED_LINEAR * 1000000 / 3600 / VHEEL_DIAMETR / PI  // revolutions per second
-#define  MAX_FREQUENCY              MAX_TURN * 360 / ANGLE_PER_STEP * MICROSTEPPING         // Maximum motor STEP frequency (Hz)
+//#define  MAX_FREQUENCY              MAX_TURN * 360 / ANGLE_PER_STEP * MICROSTEPPING         // Maximum motor STEP frequency (Hz)
 
 //============== end =================//
 
@@ -98,9 +98,9 @@
 // the maximum value of the period is 20 milliseconds and with a cycle time of 10 μc = 2000 cycles
 // the positive strobe of the control pulse changes within:
 // the minimum is 0.6 ms, the average is 1.5 ms and the largest is 2.4 ms or in the periods 60-150-240
-//  
-#define  SERVO_AUX_NEUTRO           150     // neutral servo position
-#define  SERVO_MIN_PULSEWIDTH       80
-#define  SERVO_MAX_PULSEWIDTH       220
+//
+#define  SERVO_AUX_NEUTRO           300     // neutral servo position
+#define  SERVO_MIN_PULSEWIDTH       160
+#define  SERVO_MAX_PULSEWIDTH       440
 //============== end =================//
 #endif // EX_ESP_CONFIG_H

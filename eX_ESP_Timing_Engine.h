@@ -72,7 +72,7 @@ void te_detachInterrupt() {
 void ICACHE_RAM_ATTR te_Processor()
 {
 uint32_t cc;
-  te_write(te_getCycleCount() + 675); // set a period of 675 timer ticks to form a working period of 10 μs (340 for 5 μs)
+  te_write(te_getCycleCount() + 340); // set a period of 675 timer ticks to form a working period of 10 μs (340 for 5 μs)
   PIN_LOW(MOTOR1_STEP_PIN);
   PIN_LOW(MOTOR2_STEP_PIN);
   for(int i=0; i < NUM_DEV; ++i)
