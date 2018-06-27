@@ -290,7 +290,7 @@ void loop()
 
   if(RequestBAT)
   {
-    bat_level = analogRead(BATTERY_PIN)*K_bat;
+//    bat_level = ??;
     RequestBAT = false;
     if (page==1)
     {
@@ -304,6 +304,17 @@ void loop()
     dist_value = echo_value * 0.0125 / 58; // in centimeters
     loop_counter = 0;
 //    Serial.println(control_output);
+
+      // send battery
+      float bat_voltage = analogRead(BATTERY_PIN)*K_bat;
+      Serial.println(bat_voltage);
+      
+      int battery_mapped = constrain(map((int)(bat_voltage * 10), 60, 90, 55, 80), 55, 80);
+//      Serial.print(" B");
+//      Serial.println(battery_mapped);
+      char auxS[25];
+      sprintf(auxS, "$tB,%04d", battery_mapped);
+//      OSC_MsgSend(auxS, 25);  
   }
 
 }

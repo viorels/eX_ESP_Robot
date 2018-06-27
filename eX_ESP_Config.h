@@ -11,7 +11,8 @@
 #define  I2C_SPEED                  400000
 #define  SERIAL_SPEED               115200
 //#define  K_bat                      0.004581469370719
-#define  K_bat                      1.5*0.004581469370719 //rz: alternative battery level divider
+//#define  K_bat                      1.5*0.004581469370719 //rz: alternative battery level divider
+#define  K_bat                      1.0 / 1024 * 3.3 / (2.2/(2.2+22)) * 0.98 // last is error factor
 
 ///    Parameters of the MPU6050 module      ///
 //============= start ================//
