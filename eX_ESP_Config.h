@@ -28,6 +28,7 @@
 
 // Set the parameters of the driver and driver type //
 //============= start ================//
+#define  NO_MICROSTEPPING           1
 #define  MICROSTEPPING              16    // 8, 16, 32
 #define  AUTO_STEPPING_SPEED        50    // turn off microstepping above this speed
 #define  ANGLE_PER_STEP             1.8   // 0.9, 1.8

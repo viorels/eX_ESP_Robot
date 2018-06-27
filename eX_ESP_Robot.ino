@@ -226,6 +226,7 @@ void loop()
         Kd = Kd_user; 
         Kp_thr = Kp_thr_user;
         Ki_thr = Ki_thr_user;
+        setMicroStepping(MICROSTEPPING);
       }     
       else    // while lifting the robot to the working position, we use special control parameters
       {
@@ -233,6 +234,7 @@ void loop()
         Kd = KD_RAISEUP;
         Kp_thr = KP_THROTTLE_RAISEUP; 
         Ki_thr = KI_THROTTLE_RAISEUP;
+        setMicroStepping(NO_MICROSTEPPING);
       } 
     }
     else   // Robot not ready (flat), angle > 70º => ROBOT OFF
@@ -289,7 +291,7 @@ void loop()
     motor1 = constrain(motor1,-MAX_CONTROL_OUTPUT,MAX_CONTROL_OUTPUT);   
     motor2 = constrain(motor2,-MAX_CONTROL_OUTPUT,MAX_CONTROL_OUTPUT);
 
-    setMicroStepping(abs(control_output) >= AUTO_STEPPING_SPEED ? 1 : MICROSTEPPING);
+    setMicroStepping(abs(control_output) >= AUTO_STEPPING_SPEED ? NO_MICROSTEPPING : MICROSTEPPING);
     te_SetMotorsSpeed(motor1, motor2);  
 /*
     Serial.print(angle_adjusted);
