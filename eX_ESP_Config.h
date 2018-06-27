@@ -63,7 +63,7 @@
 ///     Manageability parameters      ///
 //============= start ================//
 #define  ZERO_SPEED                 25000
-#define  MAX_ACCEL                  12
+#define  MAX_ACCEL                  8
 #define  MAX_CONTROL_OUTPUT         500
 
 // NORMAL MODE = smooth, moderately

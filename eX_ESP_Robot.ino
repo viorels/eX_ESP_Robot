@@ -85,8 +85,9 @@ void setup()
   i2c_begin(SDA_PIN, SCL_PIN, I2C_SPEED);
   robot_pro_mode = false;
   robot_shutdown = false;
-  if (mpu_Initialization() == 0)
-    robot_shutdown = true;  
+  int mpu_res = mpu_Initialization();
+  Serial.print("mpu_Initialization ");
+  Serial.println(mpu_res);
   timer_old_value = millis();
   fadder[0] = 0.5;
   fadder[1] = 0.5;
@@ -211,7 +212,8 @@ void loop()
     if ((angle_adjusted<74)&&(angle_adjusted>-74))  // Робот в рабочем ли положении?
     {
       // NORMAL MODE
-      PIN_LOW(MOTORS_ENABLE_PIN);    // драйвера активны
+      PIN_LOW(MOTORS_ENABLE_PIN);    // drivers are active
+
       // Push1 Move servo arm
       if (push[0])  // Move arm
         te_SetServo(SERVO_MIN_PULSEWIDTH+10);
@@ -275,10 +277,10 @@ void loop()
       // input: robot target angle(from SPEED CONTROL)
       // variable: robot angle
       // output: Motor speed
-      // Мы интегрируем реакцию (суммируя), так что на выходе имеем ускорение двигателя, а не его скорость вращения.
+      // We integrate the reaction (summing), so at the output we have the acceleration of the motor, and not its speed of rotation.
     control_output += stabilityPDControl(dt,angle_adjusted,target_angle,Kp,Kd);  
 
-      // Вводим пользовательские корректировки по рулению в сигнал управления
+      // Enter the user's taxi corrections into the control signal
     motor1 = control_output + steering;
     motor2 = control_output - steering;
 
@@ -286,6 +288,13 @@ void loop()
     motor1 = constrain(motor1,-MAX_CONTROL_OUTPUT,MAX_CONTROL_OUTPUT);   
     motor2 = constrain(motor2,-MAX_CONTROL_OUTPUT,MAX_CONTROL_OUTPUT);  
     te_SetMotorsSpeed(motor1, motor2);  
+/*
+    Serial.print(angle_adjusted);
+    Serial.print(" ");
+    Serial.print(target_angle);
+    Serial.print(" ");
+    Serial.println(estimated_speed_filtered / 10);
+*/
   }
 
   if(RequestBAT)
@@ -307,7 +316,7 @@ void loop()
 
       // send battery
       float bat_voltage = analogRead(BATTERY_PIN)*K_bat;
-      Serial.println(bat_voltage);
+      // Serial.println(bat_voltage);
       
       int battery_mapped = constrain(map((int)(bat_voltage * 10), 60, 90, 55, 80), 55, 80);
 //      Serial.print(" B");

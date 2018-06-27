@@ -21,6 +21,8 @@ float stabilityPDControl(float DT, float input, float setPoint,  float Kp, float
     //    The biggest one using only the input (sensor) part not the SetPoint input-input(t-2)
     //    And the second using the setpoint to make it a bit more agressive   setPoint-setPoint(t-1)
   output = Kp*error + (Kd*(setPoint - setPointOld) - Kd*(input - PID_errorOld2))/DT;       // + error - PID_error_Old2
+//  float Kd_setPoint = constrain((setPoint - setPointOld), -8, 8); // We limit the input part...
+//  output = Kp * error + (Kd * Kd_setPoint - Kd * (input - PID_errorOld)) / DT;
   PID_errorOld2 = PID_errorOld;
   PID_errorOld = input;  // error for Kd is only the input component
   setPointOld = setPoint;
