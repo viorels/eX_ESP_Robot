@@ -28,7 +28,8 @@
 
 // Set the parameters of the driver and driver type //
 //============= start ================//
-#define  MICROSTEPPING              4    // 8, 16, 32
+#define  MICROSTEPPING              16    // 8, 16, 32
+#define  AUTO_STEPPING_SPEED        50    // turn off microstepping above this speed
 #define  ANGLE_PER_STEP             1.8   // 0.9, 1.8
 #define  K_MOTOR_SPEED              MICROSTEPPING * 360 / ANGLE_PER_STEP
 #define  PRE_DIR_STROBE             25    // 25 - 640 ns, 27 - 690ns, 28 - 740 ns

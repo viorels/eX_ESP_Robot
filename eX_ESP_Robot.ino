@@ -112,6 +112,7 @@ void setup()
   digitalWrite(MOTORS_ENABLE_PIN, LOW);
   te_SetServo(SERVO_AUX_NEUTRO);
 
+  setMicroStepping(MICROSTEPPING);
 }
 
 void loop()
@@ -286,7 +287,9 @@ void loop()
 
     // Limit max speed (control output)
     motor1 = constrain(motor1,-MAX_CONTROL_OUTPUT,MAX_CONTROL_OUTPUT);   
-    motor2 = constrain(motor2,-MAX_CONTROL_OUTPUT,MAX_CONTROL_OUTPUT);  
+    motor2 = constrain(motor2,-MAX_CONTROL_OUTPUT,MAX_CONTROL_OUTPUT);
+
+    setMicroStepping(abs(control_output) >= AUTO_STEPPING_SPEED ? 1 : MICROSTEPPING);
     te_SetMotorsSpeed(motor1, motor2);  
 /*
     Serial.print(angle_adjusted);

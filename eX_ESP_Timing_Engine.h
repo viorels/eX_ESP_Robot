@@ -18,6 +18,9 @@
 int16_t    speed_M1, speed_M2;        // current speed of rotation of motors
 int32_t    echo_start, echo_stop, echo_value=1000000;
 
+int microstepping;
+float motor_speed;
+
 typedef struct {
   int8_t         phase_or_dir;
   int32_t        a_period;
@@ -246,6 +249,21 @@ void te_Start()
   te_write(te_getCycleCount() + 1500);
 }
 
+void setMicroStepping(int stepping) {
+  microstepping = stepping;
+  motor_speed = microstepping * 360 / ANGLE_PER_STEP;
+  if (stepping == 1) {
+    pinMode(SERVO2_PIN, OUTPUT);
+    digitalWrite(SERVO2_PIN, LOW);  // set MICROSTEPPING pins to LOW (full step)
+  } else if (stepping == 16) {
+    pinMode(SERVO2_PIN, OUTPUT);
+    digitalWrite(SERVO2_PIN, HIGH); // set MICROSTEPPING pins to HIGH (1/16)
+  } else if (stepping == 4) {
+    pinMode(SERVO2_PIN, INPUT);     // set MICROSTEPPING pins to FLOATING? (1/4)
+    digitalRead(SERVO2_PIN);
+  }
+}
+
 // Setting the rotational speed of motors
 // tspeed_Mx can take both positive and negative values (reverse)
 void te_SetMotorsSpeed(int16_t t_speed_M1, int16_t t_speed_M2)
@@ -267,8 +285,8 @@ void te_SetMotorsSpeed(int16_t t_speed_M1, int16_t t_speed_M2)
   else
     speed_M2 = t_speed_M2;
 
-  speed_1 = speed_M1 * K_MOTOR_SPEED;
-  speed_2 = speed_M2 * K_MOTOR_SPEED;
+  speed_1 = speed_M1 * motor_speed;
+  speed_2 = speed_M2 * motor_speed;
 // Calculation of the period for motor1
   if (speed_1 == 0)
   {
