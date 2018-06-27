@@ -176,7 +176,7 @@ void loop()
         Kp_user = KP*2*fadder[0];
         Kd_user = KD*2*fadder[1];
         Kp_thr_user = KP_THROTTLE*2*fadder[2];
-        Ki_thr_user = (KI_THROTTLE+0.1)*2*fadder[3];
+        Ki_thr_user = KI_THROTTLE*2*fadder[3];
       }
       while (toggle[1])
       {

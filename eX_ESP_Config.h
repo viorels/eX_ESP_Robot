@@ -73,19 +73,19 @@
 
 // PRO MODE = more aggressive
 #define  MAX_THROTTLE_PRO           680
-#define  MAX_STEERING_PRO           250 
+#define  MAX_STEERING_PRO           250
 #define  MAX_TARGET_ANGLE_PRO       20
 //============== end =================//
 
 ///         PID-options            ///
 //============= start ================//
-// Default management conditions 
+// Default management conditions
 #define  KP                         0.07    // alternative values: 0.20, 0.22 | 0.07
-#define  KD                         12      // 26 28 | 12
-#define  KP_THROTTLE                0.07    // 0.065, 0.08 | 0.07
+#define  KD                         8      // 26 28 | 12
+#define  KP_THROTTLE                0.10    // 0.065, 0.08 | 0.07
 #define  KI_THROTTLE                0.04    // 0.05 | 0.04
 // Increase in control when the robot is raised from a recumbent position
-#define  KP_RAISEUP                 0.15
+#define  KP_RAISEUP                 0.10
 #define  KD_RAISEUP                 0.05
 #define  KP_THROTTLE_RAISEUP        0       // When lifting, the speed of the motors is not controlled
 #define  KI_THROTTLE_RAISEUP        0.0
@@ -99,8 +99,8 @@
 // the positive strobe of the control pulse changes within:
 // the minimum is 0.6 ms, the average is 1.5 ms and the largest is 2.4 ms or in the periods 60-150-240
 //
-#define  SERVO_AUX_NEUTRO           300     // neutral servo position
-#define  SERVO_MIN_PULSEWIDTH       160
-#define  SERVO_MAX_PULSEWIDTH       440
+#define  SERVO_AUX_NEUTRO           250     // neutral servo position, was 150
+#define  SERVO_MIN_PULSEWIDTH       100
+#define  SERVO_MAX_PULSEWIDTH       400
 //============== end =================//
 #endif // EX_ESP_CONFIG_H
